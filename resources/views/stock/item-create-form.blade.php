@@ -7,21 +7,21 @@
             <div>
                 <label for="item_name" class="col-sm-3 control-label">New Product name</label>
                 <div class="col-sm-6 mt-3">
-                    <input type="text" name="item_name" id="item_name" class="form-control">
+                    <input type="text" name="item_name" id="item_name" class="form-control" value="{{ old('item_name') }}">
                 </div>
             </div>
             
             <div class="ms-3">
                 <label for="stock" class="col-sm-3 control-label">Quantity</label>
                 <div class="col-sm-6 mt-3">
-                    <input type="text" name="stock" id="stock" class="form-control">
+                    <input type="text" name="stock" id="stock" class="form-control" value="{{ old('stock') }}">
                 </div>
             </div>
 
             <div class="ms-3">
                 <label for="price" class="col-sm-3 control-label">Price</label>
                 <div class="col-sm-6 mt-3">
-                    <input type="text" name="price" id="price" class="form-control">
+                    <input type="text" name="price" id="price" class="form-control" value="{{ old('price') }}">
                 </div>
             </div>
         </div>

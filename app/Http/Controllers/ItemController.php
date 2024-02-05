@@ -22,13 +22,13 @@ class ItemController extends Controller
     public static function get_available_items() {
         return Item::where('stock', '>', 0)->get();
     }
-    
+
     public function create(Request $request): RedirectResponse
     {
         $request->validate([
             'item_name' => 'required',
-            'stock' => 'required',
-            'price' => 'required',
+            'stock' => 'required|numeric',
+            'price' => 'required|numeric',
         ]);
 
         $item = new Item;
