@@ -26,15 +26,21 @@ class ItemController extends Controller
     public function create(Request $request): RedirectResponse
     {
         $request->validate([
-            'item_name' => 'required',
-            'stock' => 'required|numeric',
-            'price' => 'required|numeric',
+            'new_item_name' => 'required',
+            'new_stock' => 'required|numeric',
+            'new_price' => 'required|numeric',
+        ], [
+            'new_item_name.required' => 'New item name can not be blank.',
+            'new_stock.required' => 'New item stock can not be blank.',
+            'new_price.required' => 'New item price can not be blank.',
+            'new_stock.numeric' => 'New item stock must be a number.',
+            'new_price.numeric' => 'New item price must be a number.',
         ]);
 
         $item = new Item;
-        $item->name = $request->item_name;
-        $item->stock = $request->stock;
-        $item->price = $request->price;
+        $item->name = $request->new_item_name;
+        $item->stock = $request->new_stock;
+        $item->price = $request->new_price;
 
         $item->save();
 
@@ -43,6 +49,12 @@ class ItemController extends Controller
 
     public function update(Request $request): RedirectResponse
     {
+        $request->validate([
+            'name' => 'required',
+            'stock' => 'required|numeric',
+            'price' => 'required|numeric',
+        ]);
+
         $item = Item::where('id', '=', $request->item_id)->first();
         $item->name = $request->name;
         $item->stock = $request->stock;
