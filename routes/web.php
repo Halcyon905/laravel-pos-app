@@ -39,7 +39,7 @@ Route::get('/dashboard', function (Request $request) {
         return Redirect::route('payment')->with('sale_id', $sale->id);
     }
 
-    $available = Item::where('stock', '>', 0)->get();
+    $available = ItemController::get_available_items();
     
     return view('dashboard')->with('sale', $sale)
                             ->with('sale_items', $sale->sales_line_item()->get())
@@ -48,7 +48,7 @@ Route::get('/dashboard', function (Request $request) {
 
 Route::get('/stock', function (Request $request) {
 
-    $stock = Item::get();
+    $stock = ItemController::get_all_items();
     
     return view('stock')->with('stock', $stock);
 })->middleware(['auth', 'verified'])->name('stock');
