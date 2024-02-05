@@ -41,7 +41,7 @@ class ItemController extends Controller
         return Redirect::route('stock')->with('status', 'Item created.');
     }
 
-    public function update(Request $request)
+    public function update(Request $request): RedirectResponse
     {
         $item = Item::where('id', '=', $request->item_id)->first();
         $item->name = $request->name;
@@ -65,7 +65,7 @@ class ItemController extends Controller
         return Redirect::route('stock')->with('status', 'Item Info updated.');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request): RedirectResponse
     {
         Item::where('id', '=', $request->item_id)->delete();
         return Redirect::route('stock')->with('status', 'Item deleted.');
