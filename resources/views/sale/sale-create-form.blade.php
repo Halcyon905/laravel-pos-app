@@ -12,7 +12,11 @@
                     <select name="item_id" id="item_id" class="form-control">
                             <option value="none">select a product</option>
                             @foreach($stock as $option)
-                                <option value="{{ $option->id }}">{{ $option->name }} -- {{ $option->price }} baht</option>
+                                @if(old('item_id') == $option->id)
+                                    <option value="{{ $option->id }}" selected="true">{{ $option->name }} -- {{ $option->price }} baht</option>
+                                @else
+                                    <option value="{{ $option->id }}">{{ $option->name }} -- {{ $option->price }} baht</option>
+                                @endif
                             @endforeach
                     </select>
                 </div>
@@ -21,7 +25,7 @@
             <div class="ms-3">
                 <label for="quantity" class="col-sm-3 control-label">Quantity</label>
                 <div class="col-sm-6 mt-3">
-                    <input type="text" name="quantity" id="quantity" class="form-control">
+                    <input type="text" name="quantity" id="quantity" class="form-control" value="{{ old('quantity') }}">
                 </div>
             </div>
         </div>

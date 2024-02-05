@@ -9,12 +9,21 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Redirect;
 
+use Illuminate\Validation\Rule;
+
 use App\Models\SalesLineItem;
 
 class SalesLineItemController extends Controller
 {
-    public function create(Request $request)
+    public function create(Request $request): RedirectResponse
     {
+        $request->validate([
+            'item_id' => [Rule::notIn(['none'])],
+            'quantity' => 'required|numeric'
+        ], [
+            'item_id.not_in' => 'Please select a viable item option.',
+        ]);
+
         $sales_line_item = SalesLineItem::where('sale_id', '=', $request->sale_id)->where('item_id', '=', $request->item_id)->first();
         if($sales_line_item != null) {
             $sales_line_item->increment('quantity', $request->quantity);

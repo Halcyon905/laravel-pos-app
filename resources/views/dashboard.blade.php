@@ -13,8 +13,8 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex items-center gap-4 mt-10 ml-10 text-l">
                         @include('messages.status-msg-display')
+                        @include('messages.error-msg-display')
                     </div>
-
                     <div class="text-l relative overflow-x-auto">
                         @if(count($sale_items) > 0)
                         <table class="w-full text-left text-gray-500 dark:text-gray-400">
