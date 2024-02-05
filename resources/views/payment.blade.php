@@ -12,18 +12,7 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex items-center gap-4 mt-10 ml-10 text-l">
-                        <p
-                            x-data="{ show: true }"
-                            x-show="show"
-                            x-transition
-                            x-init="setTimeout(() => show = false, 20000)"
-                            class="text-sm text-red-600 dark:text-gray-400">
-                        @if ($errors->any())
-                            @foreach ($errors->all() as $error)
-                                {{ $error }}
-                            @endforeach
-                        @endif
-                        </p>
+                        @include('messages.error-msg-display')
                     </div>
 
                     <div class="py-4 mt-3 text-xl font-bold">

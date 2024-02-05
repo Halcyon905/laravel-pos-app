@@ -10,28 +10,8 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex items-center gap-4 mt-10 ml-10 text-l">
-                        <p
-                            x-data="{ show: true }"
-                            x-show="show"
-                            x-transition
-                            x-init="setTimeout(() => show = false, 20000)"
-                            class="text-sm text-gray-600 dark:text-gray-400">
-                        @if (session('status'))
-                            {{ __(session('status')) }}
-                        @endif
-                        </p>
-                        <p
-                            x-data="{ show: true }"
-                            x-show="show"
-                            x-transition
-                            x-init="setTimeout(() => show = false, 20000)"
-                            class="text-sm text-red-600 dark:text-gray-400">
-                        @if ($errors->any())
-                            @foreach ($errors->all() as $error)
-                                {{ $error }} <br>
-                            @endforeach
-                        @endif
-                        </p>
+                        @include('messages.status-msg-display')
+                        @include('messages.error-msg-display')
                     </div>
 
                     <div class="text-l relative overflow-x-auto">
