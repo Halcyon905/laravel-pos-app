@@ -5,10 +5,6 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SalesLineItemController;
 
-use App\Models\Sale;
-use App\Models\Item;
-use App\Models\SalesLineItem;
-
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -29,8 +25,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function (Request $request) {
-
-    $sale = Sale::where('employee_id', '=', $request->user()->id)->orderBy('id', 'DESC')->first();
+    $sale = SaleController::get_latest_sale_by_employee($request);
 
     if($sale == null) {
         return Redirect::route('sale.create');
@@ -38,13 +33,19 @@ Route::get('/dashboard', function (Request $request) {
     elseif($sale->payment_confirm == 1) {
         return Redirect::route('payment')->with('sale_id', $sale->id);
     }
-
-    $available = ItemController::get_available_items();
     
     return view('dashboard')->with('sale', $sale)
                             ->with('sale_items', $sale->sales_line_item()->get())
-                            ->with('stock', $available);
+                            ->with('stock', ItemController::get_available_items());
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/confirm_pay', function (Request $request) {
+    $sale = SaleController::get_latest_sale_by_employee($request);
+    if($sale->payment_confirm == 0){
+        SaleController::update_sale_payment_status(1, $sale->id);
+    }
+    return view('payment')->with('grand_total', $sale->total)->with('sale_id', $sale->id);
+})->middleware(['auth', 'verified'])->name('payment');
 
 Route::get('/stock', function (Request $request) {
 
@@ -64,15 +65,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/sale', [SaleController::class, 'create'])->name('sale.create');
     Route::patch('/sale', [SaleController::class, 'update'])->name('sale.update');
-
-    Route::get('/confirm_pay', function (Request $request) {
-        $sale = Sale::where('employee_id', '=', $request->user()->id)->orderBy('id', 'DESC')->first();
-        if($sale->payment_confirm == 0){
-            $sale->payment_confirm = 1;
-            $sale->save();
-        }
-        return view('payment')->with('grand_total', $sale->total)->with('sale_id', $sale->id);
-    })->name('payment');
 
     Route::post('/add_item', [SalesLineItemController::class, 'create'])->name('salesLineItem.create');
     Route::delete('/delete_item', [SalesLineItemController::class, 'destroy'])->name('salesLineItem.delete');

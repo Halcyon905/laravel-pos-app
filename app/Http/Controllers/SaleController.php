@@ -16,6 +16,16 @@ use App\Models\Sale;
 
 class SaleController extends Controller
 {
+    public static function get_latest_sale_by_employee(Request $request) {
+        return Sale::where('employee_id', '=', $request->user()->id)->orderBy('id', 'DESC')->first();
+    }
+
+    public static function update_sale_payment_status(int $status, int $sale_id) {
+        Sale::where('id', '=', $sale_id)->update([
+            'payment_confirm' => $status,
+        ]);
+    }
+
     public function create(Request $request)
     {
         $sale = new Sale;
