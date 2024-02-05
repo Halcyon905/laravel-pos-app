@@ -32,19 +32,18 @@
                                 </tr>
                             </thead>
                             <tbody class="text-left">
-                            @foreach($sale_items as $item)
+                            @foreach($sale_items as $sale_item)
                                 <tr>
-                                    <td class="px-6 py-4">{{ $item->item->name }}</td>
-                                    <td class="px-6 py-4">{{ $item->quantity }}</td>
-                                    <td class="px-6 py-4">{{ $item->total }}</td>
+                                    <td class="px-6 py-4">{{ $sale_item->item->name }}</td>
+                                    <td class="px-6 py-4">{{ $sale_item->quantity }}</td>
+                                    <td class="px-6 py-4">{{ $sale_item->total }}</td>
                                     <td class="px-6 py-4 text-center">
                                         <form action="{{ route('salesLineItem.delete') }}" method="POST" class="form-horizontal">
                                             @csrf
                                             @method('delete')
 
-                                            <input type="hidden" name="sale_id" value="{{ $item->sale_id }}">
-                                            <input type="hidden" name="item_id" value="{{ $item->item_id }}">
-                                            <x-primary-button class="mt-4">
+                                            <input type="hidden" name="id" value="{{ $sale_item->id }}">
+                                            <x-primary-button>
                                                 {{ __('Remove') }}
                                             </x-primary-button>
                                         </form>

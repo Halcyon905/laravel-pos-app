@@ -41,7 +41,7 @@ class SalesLineItemController extends Controller
 
     public function destroy(Request $request): RedirectResponse
     {
-        $sales_line_item = SalesLineItem::where('sale_id', '=', $request->sale_id)->where('item_id', '=', $request->item_id)->first();
+        $sales_line_item = SalesLineItem::where('id', '=', $request->id)->first();
         $sales_line_item->sale->decrement('total', $sales_line_item->total);
         $sales_line_item->delete();
         return Redirect::route('dashboard')->with('status', 'Item removed.');
