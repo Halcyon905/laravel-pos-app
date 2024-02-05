@@ -11,9 +11,9 @@
                 <div class="col-sm-6 mt-3">
                     <select name="item_id" id="item_id" class="form-control">
                             <option value="none">select a product</option>
-                        @foreach($stock as $option)
-                            <option value="{{ $option->id }}">{{ $option->name }}</option>
-                        @endforeach
+                            @foreach($stock as $option)
+                                <option value="{{ $option->id }}">{{ $option->name }} -- {{ $option->price }} baht</option>
+                            @endforeach
                     </select>
                 </div>
             </div>

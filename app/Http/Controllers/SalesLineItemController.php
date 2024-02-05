@@ -13,14 +13,12 @@ use App\Models\SalesLineItem;
 
 class SalesLineItemController extends Controller
 {
-    public function create(Request $request): RedirectResponse
+    public function create(Request $request)
     {
         $sales_line_item = SalesLineItem::where('sale_id', '=', $request->sale_id)->where('item_id', '=', $request->item_id)->first();
         if($sales_line_item != null) {
-            $sales_line_item->incrementEach([
-                'quantity' => $request->quantity,
-                'total' => ($request->quantity * $sales_line_item->item->price),
-            ]);
+            $sales_line_item->increment('quantity', $request->quantity);
+            $sales_line_item->increment('total', ($request->quantity * $sales_line_item->item->price));
             $sales_line_item->sale->increment('total', $sales_line_item->total);
         }
         else {
