@@ -18,7 +18,7 @@ class ItemController extends Controller
     public function create(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required',
+            'item_name' => 'required',
             'stock' => 'required',
             'price' => 'required',
         ]);
