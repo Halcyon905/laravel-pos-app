@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sales', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('payment_id');
-            $table->foreign('payment_id')->references('id')->on('payments')->onDelete('cascade');
-            $table->unsignedBigInteger('employee_id');
-            $table->foreign('employee_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('payment_type');
+            $table->float('total');
         });
     }
 
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sales');
+        Schema::dropIfExists('payments');
     }
 };
