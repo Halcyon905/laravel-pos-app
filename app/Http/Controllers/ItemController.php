@@ -63,15 +63,11 @@ class ItemController extends Controller
 
         $affected = $item->sales_line_item()->get();
         foreach($affected as $to_update_item) {
-            if($to_update_item->sale->payment_confirm != 0) {
+            if($to_update_item->sale->payment->payment_type != 'unfinished') {
                 continue;
             }
-            $to_update_item->sale->decrement('total', $to_update_item->total);
-
             $to_update_item->total = $to_update_item->quantity * $item->price;
             $to_update_item->save();
-
-            $to_update_item->sale->increment('total', $to_update_item->total);
         }
 
         return Redirect::route('stock')->with('status', 'Item Info updated.');
