@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedBigInteger('payment_id');
-            $table->foreign('payment_id')->references('id')->on('payments')->onDelete('cascade');
             $table->unsignedBigInteger('employee_id');
             $table->foreign('employee_id')->references('id')->on('users')->onDelete('cascade');
         });

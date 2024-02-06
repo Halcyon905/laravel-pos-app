@@ -16,6 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->string('payment_type');
             $table->float('total');
+            $table->unsignedBigInteger('sale_id');
+            $table->foreign('sale_id')->references('id')->on('sales')->onDelete('cascade');
         });
     }
 
