@@ -64,7 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/item', [ItemController::class, 'destroy'])->name('item.destroy');
 
     Route::get('/sale', [SaleController::class, 'create'])->name('sale.create');
-    Route::patch('/sale', [SaleController::class, 'update'])->name('sale.update');
+    Route::patch('/sale', [SaleController::class, 'confirm'])->name('sale.confirm');
 
     Route::post('/add_item', [SalesLineItemController::class, 'create'])->name('salesLineItem.create');
     Route::delete('/delete_item', [SalesLineItemController::class, 'destroy'])->name('salesLineItem.delete');

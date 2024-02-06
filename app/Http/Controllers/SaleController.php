@@ -39,7 +39,7 @@ class SaleController extends Controller
         return Redirect::route('dashboard')->with('status', 'Sale created.');
     }
 
-    public function update(Request $request)
+    public function confirm(Request $request)
     {
         $request->validate([
             'pay_confirm' => 'required',

@@ -19,7 +19,7 @@
                         Grand Total: {{ $grand_total }} baht
                     </div>
 
-                    <form action="{{ route('sale.update') }}" method="POST" class="form-horizontal">
+                    <form action="{{ route('sale.confirm') }}" method="POST" class="form-horizontal">
                     {{ csrf_field() }}
                     @method("patch")
                     <div class="py-4">
