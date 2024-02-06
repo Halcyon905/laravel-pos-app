@@ -30,21 +30,23 @@ Route::get('/dashboard', function (Request $request) {
     if($sale == null) {
         return Redirect::route('sale.create');
     }
-    elseif($sale->payment_confirm == 1) {
-        return Redirect::route('payment')->with('sale_id', $sale->id);
+    elseif($sale->payment->payment_type == 'pending') {
+        return Redirect::route('payment');
     }
     
     return view('dashboard')->with('sale', $sale)
+                            ->with('total', array_sum($sale->sales_line_item()->pluck('total')->all()))
                             ->with('sale_items', $sale->sales_line_item()->get())
                             ->with('stock', ItemController::get_available_items());
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/confirm_pay', function (Request $request) {
     $sale = SaleController::get_latest_sale_by_employee($request);
-    if($sale->payment_confirm == 0){
-        SaleController::update_sale_payment_status(1, $sale->id);
+    if($sale->payment->payment_type == 'unfinished'){
+        SaleController::update_sale_payment_status('pending', $sale->id);
     }
-    return view('payment')->with('grand_total', $sale->total)->with('sale_id', $sale->id);
+    $sale = SaleController::get_latest_sale_by_employee($request);
+    return view('payment')->with('grand_total', $sale->payment->total)->with('sale_id', $sale->id);
 })->middleware(['auth', 'verified'])->name('payment');
 
 Route::get('/stock', function (Request $request) {

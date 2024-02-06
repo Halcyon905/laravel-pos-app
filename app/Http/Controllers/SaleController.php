@@ -13,6 +13,7 @@ use Illuminate\Validation\Validator;
 use Illuminate\View\View;
 
 use App\Models\Sale;
+use App\Models\Payment;
 
 class SaleController extends Controller
 {
@@ -20,21 +21,25 @@ class SaleController extends Controller
         return Sale::where('employee_id', '=', $request->user()->id)->orderBy('id', 'DESC')->first();
     }
 
-    public static function update_sale_payment_status(int $status, int $sale_id) {
-        Sale::where('id', '=', $sale_id)->update([
-            'payment_confirm' => $status,
-        ]);
+    public static function update_sale_payment_status(string $status, int $sale_id) {
+        $sale = Sale::where('id', '=', $sale_id)->first();
+        $payment = $sale->payment;
+
+        $payment->total = array_sum($sale->sales_line_item()->pluck('total')->all());
+        $payment->payment_type = $status;
+        $payment->save();
     }
 
     public function create(Request $request)
     {
         $sale = new Sale;
-
         $sale->employee_id = $request->user()->id;
-        $sale->customer = "temp";
-        $sale->payment_method = "cash";
-
         $sale->save();
+
+        $new_payment = new Payment;
+        $new_payment->sale_id = $sale->id;
+        $new_payment->total = 0;
+        $new_payment->save();
 
         return Redirect::route('dashboard')->with('status', 'Sale created.');
     }
@@ -48,9 +53,9 @@ class SaleController extends Controller
         ]);
         
         $sale = Sale::where('id', '=', $request->sale_id)->first();
-        $sale->payment_method = $request->payment;
-        $sale->payment_confirm = 2;
+        $sale->payment->payment_type = $request->payment;
 
+        $sale->payment->save();
         $sale->save();
 
         $bought_items = $sale->sales_line_item()->get();

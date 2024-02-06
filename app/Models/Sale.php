@@ -12,11 +12,6 @@ class Sale extends Model
 {
     use HasFactory;
 
-    protected $attributes = [
-        'payment_confirm' => 0,
-        'total' => 0,
-    ];
-
     public function sales_line_item(): HasMany {
         return $this->hasMany(SalesLineItem::class);
     }

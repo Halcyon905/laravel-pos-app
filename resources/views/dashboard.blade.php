@@ -56,7 +56,7 @@
                     </div>
 
                     <div class="py-4 mt-3 text-xl font-bold">
-                        Grand Total: {{ $sale->total }} baht
+                        Grand Total: {{ $total }} baht
                     </div>
 
                     @include('sale.sale-create-form')

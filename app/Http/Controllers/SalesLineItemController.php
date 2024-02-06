@@ -28,7 +28,6 @@ class SalesLineItemController extends Controller
         if($sales_line_item != null) {
             $sales_line_item->increment('quantity', $request->quantity);
             $sales_line_item->increment('total', ($request->quantity * $sales_line_item->item->price));
-            $sales_line_item->sale->increment('total', $sales_line_item->total);
         }
         else {
             $new_salesLineItem = new SalesLineItem;
@@ -40,7 +39,6 @@ class SalesLineItemController extends Controller
             $new_salesLineItem->save();
             
             $new_salesLineItem->increment('total', ($new_salesLineItem->quantity * $new_salesLineItem->item->price));
-            $new_salesLineItem->sale->increment('total', $new_salesLineItem->total);
         }
 
         return Redirect::route('dashboard')->with('status', 'Item added.');
