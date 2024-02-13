@@ -42,7 +42,7 @@
                     </form>
                     @else
                     <div class="py-4 text-xl font-bold">
-                        Membership added; 10% discount Applied.
+                    ( {{ $member->full_name }} ) Membership added, 10% discount Applied.
                     </div>
                     @endif
 
