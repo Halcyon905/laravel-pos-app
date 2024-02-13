@@ -60,6 +60,10 @@ Route::get('/stock', function (Request $request) {
     return view('stock')->with('stock', $stock);
 })->middleware(['auth', 'verified'])->name('stock');
 
+Route::get('/member', function (Request $request) {
+    return view('member');
+})->middleware(['auth', 'verified'])->name('member');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -76,6 +80,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/delete_item', [SalesLineItemController::class, 'destroy'])->name('salesLineItem.delete');
 
     Route::patch('/payment', [PaymentController::class, 'update'])->name('payment.update');
+
+    Route::post('/member', [MemberController::class, 'create'])->name('member.create');
 });
 
 require __DIR__.'/auth.php';
