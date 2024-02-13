@@ -13,6 +13,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="flex items-center gap-4 mt-10 ml-10 text-l">
                         @include('messages.error-msg-display')
+                        @include('messages.status-msg-display')
                     </div>
 
                     <div class="py-4 mt-3 text-xl font-bold">
@@ -25,16 +26,18 @@
                     <div class="flex py-4">
                         <div class="mt-3">
                             <div>
-                                <label for="phone">Add member</label>
+                                <label for="phone">Phone Number</label>
                             </div>
-                            <div>
+                            <div class="mt-3">
                                 <input name="phone" id="phone" value="{{ old('phone') }}">
                             </div>
                         </div>
                         <input type="hidden" name="sale_id" value="{{ $sale_id }}">
-                        <x-primary-button class="ms-3 mt-4">
-                            {{ __('Add member') }}
-                        </x-primary-button>
+                        <div class="mt-8">
+                            <x-primary-button class="ms-4 mt-4 py-8">
+                                {{ __('Add member') }}
+                            </x-primary-button>
+                        </div>
                     </div>
                     </form>
                     @else

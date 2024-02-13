@@ -25,6 +25,10 @@ class PaymentController extends Controller
     public function update(Request $request)
     {
         $member = MemberController::find_one_member_by_phone($request->phone);
+        if($member == null) {
+            $request->flash();
+            return Redirect::route('payment')->with('status', 'Phone number not found.');
+        }
         $payment = Payment::where('sale_id', '=', $request->sale_id)->first();
         $payment->member_id = $member->id;
         $payment->total = $payment->total * 0.9;
