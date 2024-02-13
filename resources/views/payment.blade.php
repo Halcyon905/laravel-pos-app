@@ -18,6 +18,30 @@
                     <div class="py-4 mt-3 text-xl font-bold">
                         Grand Total: {{ $grand_total }} baht
                     </div>
+                    @if($member->full_name == 'temp')
+                    <form action="{{ route('payment.update') }}" method="POST" class="form-horizontal">
+                    {{ csrf_field() }}
+                    @method("patch")
+                    <div class="flex py-4">
+                        <div class="mt-3">
+                            <div>
+                                <label for="phone">Add member</label>
+                            </div>
+                            <div>
+                                <input name="phone" id="phone" value="{{ old('phone') }}">
+                            </div>
+                        </div>
+                        <input type="hidden" name="sale_id" value="{{ $sale_id }}">
+                        <x-primary-button class="ms-3 mt-4">
+                            {{ __('Add member') }}
+                        </x-primary-button>
+                    </div>
+                    </form>
+                    @else
+                    <div class="py-4 text-xl font-bold">
+                        Membership added; 10% discount Applied.
+                    </div>
+                    @endif
 
                     <form action="{{ route('sale.confirm') }}" method="POST" class="form-horizontal">
                     {{ csrf_field() }}

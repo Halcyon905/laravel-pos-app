@@ -4,11 +4,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SalesLineItemController;
+use App\Http\Controllers\MemberController;
+use App\Http\Controllers\PaymentController;
 
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
+use App\Models\Member;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,7 +49,8 @@ Route::get('/confirm_pay', function (Request $request) {
         SaleController::update_sale_payment_status('pending', $sale->id);
     }
     $sale = SaleController::get_latest_sale_by_employee($request);
-    return view('payment')->with('grand_total', $sale->payment->total)->with('sale_id', $sale->id);
+    $member = $sale->payment->member;
+    return view('payment')->with('grand_total', $sale->payment->total)->with('sale_id', $sale->id)->with('member', $member);
 })->middleware(['auth', 'verified'])->name('payment');
 
 Route::get('/stock', function (Request $request) {
@@ -70,6 +74,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/add_item', [SalesLineItemController::class, 'create'])->name('salesLineItem.create');
     Route::delete('/delete_item', [SalesLineItemController::class, 'destroy'])->name('salesLineItem.delete');
+
+    Route::patch('/payment', [PaymentController::class, 'update'])->name('payment.update');
 });
 
 require __DIR__.'/auth.php';

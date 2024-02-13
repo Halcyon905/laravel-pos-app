@@ -13,7 +13,6 @@ use Illuminate\Validation\Validator;
 use Illuminate\View\View;
 
 use App\Models\Sale;
-use App\Models\Payment;
 
 class SaleController extends Controller
 {
@@ -36,10 +35,7 @@ class SaleController extends Controller
         $sale->employee_id = $request->user()->id;
         $sale->save();
 
-        $new_payment = new Payment;
-        $new_payment->sale_id = $sale->id;
-        $new_payment->total = 0;
-        $new_payment->save();
+        PaymentController::create_blank_payment($sale->id);
 
         return Redirect::route('dashboard')->with('status', 'Sale created.');
     }
