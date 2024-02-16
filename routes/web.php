@@ -24,7 +24,7 @@ use App\Models\Member;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Redirect::to('dashboard');
 });
 
 Route::get('/dashboard', function (Request $request) {

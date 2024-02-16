@@ -12,16 +12,18 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\Rule;
 
 use App\Models\SalesLineItem;
+use App\Models\Item;
 
 class SalesLineItemController extends Controller
 {
     public function create(Request $request): RedirectResponse
     {
         $request->validate([
-            'item_id' => [Rule::notIn(['none'])],
-            'quantity' => 'required|numeric'
+            'item_id' => [Rule::In(Item::where('id', '=', $request->item_id)->pluck('id')->all())],
+            'quantity' => 'required|numeric|max:'.Item::where('id', '=', $request->item_id)->pluck('stock')->first()
         ], [
-            'item_id.not_in' => 'Please select a viable item option.',
+            'item_id.in' => 'Please select a viable item option.',
+            'quantity.max' => 'Quantity exceeds the available stock: '.Item::where('id', '=', $request->item_id)->pluck('stock')->first()
         ]);
 
         $sales_line_item = SalesLineItem::where('sale_id', '=', $request->sale_id)->where('item_id', '=', $request->item_id)->first();
